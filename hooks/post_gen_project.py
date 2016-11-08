@@ -9,17 +9,11 @@ def remove_file(filepath):
 
 
 if __name__ == '__main__':
-    pass
-    # if '{{ cookiecutter.use_pypi_deployment_with_travis }}' != 'y':
-    #     remove_file('travis_pypi_setup.py')
-    #
-    # if '{{ cookiecutter.create_author_file }}' != 'y':
-    #     remove_file('AUTHORS.rst')
-    #     remove_file('docs/authors.rst')
-    #
-    # if 'no' in '{{ cookiecutter.command_line_interface|lower }}':
-    #     cli_file = os.path.join('{{ cookiecutter.project_slug }}', 'cli.py')
-    #     remove_file(cli_file)
-    #
-    # if 'Not open source' == '{{ cookiecutter.open_source_license }}':
-    #     remove_file('LICENSE')
+
+    if '{{ cookiecutter.use_lets_encrypt }}' == 'y':
+        import os, subprocess
+
+        dhparam = os.path.join(PROJECT_DIRECTORY, 'compose', 'nginx', 'dhparams.pem')
+        if not os.path.isfile(dhparam):
+            subprocess.call(['openssl', 'dhparam', '-out', dhparam, '1024'])
+
